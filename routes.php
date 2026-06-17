@@ -2,15 +2,13 @@
 
 require_once __DIR__ . '/app/Controllers/UsuariosController.php';
 require_once __DIR__ . '/app/Controllers/PessoasController.php';
+require_once __DIR__ . '/app/Controllers/AtendimentosController.php';
+require_once __DIR__ . '/app/Controllers/TiposAtendimentosController.php';
 
 $controller = $_GET['controller'] ?? 'home';
 $action = $_GET['action'] ?? 'index';
 
-/*
-|--------------------------------------------------------------------------
-| ROTAS DE USUÁRIOS
-|--------------------------------------------------------------------------
-*/
+
 if ($controller === 'usuarios') {
 
     $usuariosController = new UsuariosController();
@@ -43,11 +41,6 @@ if ($controller === 'usuarios') {
     }
 }
 
-/*
-|--------------------------------------------------------------------------
-| ROTAS DE PESSOAS
-|--------------------------------------------------------------------------
-*/
 elseif ($controller === 'pessoas') {
 
     $pessoasController = new PessoasController();
@@ -80,11 +73,76 @@ elseif ($controller === 'pessoas') {
     }
 }
 
-/*
-|--------------------------------------------------------------------------
-| HOME
-|--------------------------------------------------------------------------
-*/
+
+elseif ($controller === 'atendimentos') {
+
+    $atendimentosController = new AtendimentosController();
+
+    switch ($action) {
+
+        case 'listar':
+            $atendimentosController->listar();
+            break;
+
+        case 'buscar':
+            $atendimentosController->buscarPorId();
+            break;
+
+        case 'criar':
+            $atendimentosController->criar();
+            break;
+
+        case 'atualizar':
+            $atendimentosController->atualizar();
+            break;
+
+        case 'finalizar':
+            $atendimentosController->finalizar();
+            break;
+
+        case 'cancelar':
+            $atendimentosController->cancelar();
+            break;
+
+        default:
+            echo 'Ação de atendimentos não encontrada.';
+            break;
+    }
+}
+
+elseif ($controller === 'tipos_atendimentos') {
+
+    $tiposController = new TiposAtendimentosController();
+
+    switch ($action) {
+
+        case 'listar':
+            $tiposController->listar();
+            break;
+
+        case 'buscar':
+            $tiposController->buscarPorId();
+            break;
+
+        case 'criar':
+            $tiposController->criar();
+            break;
+
+        case 'atualizar':
+            $tiposController->atualizar();
+            break;
+
+        case 'inativar':
+            $tiposController->inativar();
+            break;
+
+        default:
+            echo 'Ação de tipos de atendimento não encontrada.';
+            break;
+    }
+}
+
+
 else {
 
     echo '<h1>AtendeLab</h1>';
@@ -108,5 +166,24 @@ else {
             <li>?controller=pessoas&action=criar</li>
             <li>?controller=pessoas&action=atualizar</li>
             <li>?controller=pessoas&action=inativar</li>
+          </ul>';
+
+    echo '<p><strong>Atendimentos:</strong></p>';
+    echo '<ul>
+            <li>?controller=atendimentos&action=listar</li>
+            <li>?controller=atendimentos&action=buscar&id=1</li>
+            <li>?controller=atendimentos&action=criar</li>
+            <li>?controller=atendimentos&action=atualizar</li>
+            <li>?controller=atendimentos&action=finalizar</li>
+            <li>?controller=atendimentos&action=cancelar</li>
+          </ul>';
+
+    echo '<p><strong>Tipos de Atendimento:</strong></p>';
+    echo '<ul>
+            <li>?controller=tipos_atendimentos&action=listar</li>
+            <li>?controller=tipos_atendimentos&action=buscar&id=1</li>
+            <li>?controller=tipos_atendimentos&action=criar</li>
+            <li>?controller=tipos_atendimentos&action=atualizar</li>
+            <li>?controller=tipos_atendimentos&action=inativar</li>
           </ul>';
 }
