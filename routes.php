@@ -25,6 +25,7 @@ if ($controller === 'auth') {
             break;
 
         case 'dashboard':
+            exigirAutenticacao();
             $authController->dashboard();
             break;
 
@@ -41,6 +42,8 @@ if ($controller === 'auth') {
 
 elseif ($controller === 'usuarios') {
 
+    exigirAutenticacao();
+    
     $usuariosController = new UsuariosController();
 
     switch ($action) {
@@ -72,6 +75,8 @@ elseif ($controller === 'usuarios') {
 }
 
 elseif ($controller === 'pessoas') {
+
+    exigirAutenticacao();
 
     $pessoasController = new PessoasController();
 
@@ -105,6 +110,8 @@ elseif ($controller === 'pessoas') {
 
 
 elseif ($controller === 'atendimentos') {
+
+    exigirAutenticacao();
 
     $atendimentosController = new AtendimentosController();
 
@@ -141,6 +148,8 @@ elseif ($controller === 'atendimentos') {
 }
 
 elseif ($controller === 'tipos_atendimentos') {
+
+    exigirAutenticacao();
 
     $tiposController = new TiposAtendimentosController();
 
