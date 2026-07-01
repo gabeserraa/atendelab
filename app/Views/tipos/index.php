@@ -1,108 +1,188 @@
-<?php require_once __DIR__ . '/../layouts/header.php'; ?>
+<?php
 
-<div class="container mt-4">
+$tituloPagina = 'Tipos de Atendimento';
 
-    <h2 class="mb-4">Tipos de Atendimento</h2>
+require_once __DIR__ . '/../layouts/header.php';
 
-    <div id="alerta"></div>
+?>
 
-    <div class="card mb-4">
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
 
-        <div class="card-header">
-            Novo Tipo
-        </div>
+    <div>
 
-        <div class="card-body">
+        <h2 class="mb-1">
+            Tipos de atendimento
+        </h2>
 
-            <form id="formTipo">
+        <p class="text-secondary mb-0">
+            Categorias utilizadas nos registros de atendimento.
+        </p>
 
-                <input type="hidden" id="tipoId" name="id">
+    </div>
 
-                <div class="mb-3">
+    <button
+        class="btn btn-success"
+        onclick="novoTipo()">
 
-                    <label class="form-label">Nome</label>
+        Novo tipo
+
+    </button>
+
+</div>
+
+<div id="alerta"></div>
+
+<div
+    class="card border-0 shadow-sm mb-4 d-none"
+    id="cardFormulario">
+
+    <div class="card-body">
+
+        <h4 class="mb-4">
+
+            Cadastro de Tipo
+
+        </h4>
+
+        <form id="formTipo">
+
+            <input
+                type="hidden"
+                id="tipoId"
+                name="id">
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Nome
+
+                    </label>
 
                     <input
-                        type="text"
                         class="form-control"
                         name="nome"
                         required>
 
                 </div>
 
-                <div class="mb-3">
+                <div class="col-md-6">
 
-                    <label class="form-label">Descrição</label>
+                    <label class="form-label">
 
-                    <textarea
-                        class="form-control"
-                        name="descricao"
-                        rows="3"></textarea>
+                        Status
 
-                </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">Status</label>
+                    </label>
 
                     <select
                         class="form-select"
                         name="status">
 
                         <option value="ativo">
+
                             Ativo
+
                         </option>
 
                         <option value="inativo">
+
                             Inativo
+
                         </option>
 
                     </select>
 
                 </div>
 
+                <div class="col-12">
+
+                    <label class="form-label">
+
+                        Descrição
+
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        rows="4"
+                        name="descricao"></textarea>
+
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+
                 <button
-                    class="btn btn-primary"
+                    class="btn btn-success"
                     type="submit">
 
                     Salvar
 
                 </button>
 
-            </form>
+                <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    onclick="fecharFormulario()">
 
-        </div>
+                    Cancelar
+
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 
-    <div class="card">
+</div>
 
-        <div class="card-header">
-            Tipos cadastrados
-        </div>
+<div class="card border-0 shadow-sm">
 
-        <div class="card-body">
+    <div class="table-responsive">
 
-            <table class="table table-bordered table-hover">
+        <table class="table table-hover align-middle mb-0">
 
-                <thead>
+            <thead class="table-light">
 
-                    <tr>
+                <tr>
 
-                        <th>Nome</th>
-                        <th>Descrição</th>
-                        <th>Status</th>
-                        <th width="160">Ações</th>
+                    <th>Nome</th>
 
-                    </tr>
+                    <th>Descrição</th>
 
-                </thead>
+                    <th>Status</th>
 
-                <tbody id="tabelaTipos"></tbody>
+                    <th class="text-end">
 
-            </table>
+                        Ações
 
-        </div>
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tabelaTipos">
+
+                <tr>
+
+                    <td
+                        colspan="4"
+                        class="text-center py-4">
+
+                        Carregando...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
 
     </div>
 
@@ -110,8 +190,39 @@
 
 <script>
 
-const formTipo = document.getElementById('formTipo');
+const formTipo =
+    document.getElementById('formTipo');
 
+const cardFormulario =
+    document.getElementById('cardFormulario');
+
+function novoTipo() {
+
+    formTipo.reset();
+
+    document.getElementById('tipoId').value='';
+
+    cardFormulario.classList.remove('d-none');
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:'smooth'
+
+    });
+
+}
+
+function fecharFormulario() {
+
+    formTipo.reset();
+
+    document.getElementById('tipoId').value='';
+
+    cardFormulario.classList.add('d-none');
+
+}
 document.addEventListener('DOMContentLoaded', carregarTipos);
 
 async function carregarTipos() {
@@ -126,38 +237,51 @@ async function carregarTipos() {
 
         if (!dados.length) {
 
-            tbody.innerHTML =
-                '<tr><td colspan="4" class="text-center">Nenhum tipo cadastrado.</td></tr>';
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center py-4">
+                        Nenhum tipo cadastrado.
+                    </td>
+                </tr>
+            `;
 
             return;
 
         }
 
-        tbody.innerHTML = dados.map(t => `
+        tbody.innerHTML = dados.map(tipo => `
 
             <tr>
 
-                <td>${AtendeLabApi.escape(t.nome)}</td>
-
-                <td>${AtendeLabApi.escape(t.descricao ?? '')}</td>
-
                 <td>
 
-                    <span class="badge ${t.status === 'ativo'
-                        ? 'text-bg-success'
-                        : 'text-bg-secondary'}">
-
-                        ${AtendeLabApi.escape(t.status)}
-
-                    </span>
+                    ${AtendeLabApi.escape(tipo.nome)}
 
                 </td>
 
                 <td>
 
+                    ${AtendeLabApi.escape(tipo.descricao ?? '')}
+
+                </td>
+
+                <td>
+
+                    <span class="badge ${tipo.status === 'ativo'
+                        ? 'text-bg-success'
+                        : 'text-bg-secondary'}">
+
+                        ${AtendeLabApi.escape(tipo.status)}
+
+                    </span>
+
+                </td>
+
+                <td class="text-end">
+
                     <button
-                        class="btn btn-sm btn-outline-primary"
-                        onclick="editarTipo(${Number(t.id)})">
+                        class="btn btn-sm btn-outline-primary me-1"
+                        onclick="editarTipo(${Number(tipo.id)})">
 
                         Editar
 
@@ -165,7 +289,7 @@ async function carregarTipos() {
 
                     <button
                         class="btn btn-sm btn-outline-danger"
-                        onclick="inativarTipo(${Number(t.id)})">
+                        onclick="inativarTipo(${Number(tipo.id)})">
 
                         Inativar
 
@@ -221,9 +345,7 @@ formTipo.addEventListener('submit', async event => {
 
         );
 
-        formTipo.reset();
-
-        document.getElementById('tipoId').value = '';
+        fecharFormulario();
 
         carregarTipos();
 
@@ -246,18 +368,30 @@ async function editarTipo(id) {
     try {
 
         const tipo = AtendeLabApi.toObject(
+
             await AtendeLabApi.get(
                 'tipos',
                 'buscar',
                 { id }
             )
+
         );
 
         document.getElementById('tipoId').value = tipo.id;
 
-        formTipo.nome.value = tipo.nome;
-        formTipo.descricao.value = tipo.descricao;
-        formTipo.status.value = tipo.status;
+        formTipo.nome.value = tipo.nome ?? '';
+        formTipo.descricao.value = tipo.descricao ?? '';
+        formTipo.status.value = tipo.status ?? 'ativo';
+
+        cardFormulario.classList.remove('d-none');
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: 'smooth'
+
+        });
 
     }
 
@@ -284,9 +418,21 @@ async function inativarTipo(id) {
     try {
 
         await AtendeLabApi.post(
+
             'tipos',
+
             'inativar',
+
             { id }
+
+        );
+
+        AtendeLabApi.showAlert(
+
+            'alerta',
+
+            'Tipo inativado com sucesso.'
+
         );
 
         carregarTipos();
@@ -296,9 +442,13 @@ async function inativarTipo(id) {
     catch (erro) {
 
         AtendeLabApi.showAlert(
+
             'alerta',
+
             erro.message,
+
             'danger'
+
         );
 
     }

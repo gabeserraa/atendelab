@@ -6,13 +6,13 @@ require_once __DIR__ . '/../layouts/header.php';
 
 ?>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
 
     <div>
 
-        <h1 class="h3 mb-1">
+        <h2 class="mb-1">
             Pessoas atendidas
-        </h1>
+        </h2>
 
         <p class="text-secondary mb-0">
             Cadastro, edição e inativação sem excluir o histórico.
@@ -22,8 +22,7 @@ require_once __DIR__ . '/../layouts/header.php';
 
     <button
         class="btn btn-success"
-        type="button"
-        onclick="abrirFormulario()">
+        onclick="novaPessoa()">
 
         Nova pessoa
 
@@ -34,26 +33,22 @@ require_once __DIR__ . '/../layouts/header.php';
 <div id="alerta"></div>
 
 <div
-    id="cardFormulario"
-    class="card shadow-sm border-0 mb-4 d-none">
+    class="card border-0 shadow-sm mb-4 d-none"
+    id="cardFormulario">
 
-    <div class="card-header">
+    <div class="card-body">
 
-        <strong>
+        <h4 class="mb-4">
 
             Cadastro de Pessoa
 
-        </strong>
-
-    </div>
-
-    <div class="card-body">
+        </h4>
 
         <form id="formPessoa">
 
             <input
                 type="hidden"
-                id="id"
+                id="pessoaId"
                 name="id">
 
             <div class="row g-3">
@@ -67,9 +62,8 @@ require_once __DIR__ . '/../layouts/header.php';
                     </label>
 
                     <input
-                        type="text"
-                        name="nome"
                         class="form-control"
+                        name="nome"
                         required>
 
                 </div>
@@ -83,9 +77,8 @@ require_once __DIR__ . '/../layouts/header.php';
                     </label>
 
                     <input
-                        type="text"
-                        name="documento"
                         class="form-control"
+                        name="documento"
                         required>
 
                 </div>
@@ -99,9 +92,8 @@ require_once __DIR__ . '/../layouts/header.php';
                     </label>
 
                     <input
-                        type="text"
-                        name="telefone"
-                        class="form-control">
+                        class="form-control"
+                        name="telefone">
 
                 </div>
 
@@ -114,9 +106,8 @@ require_once __DIR__ . '/../layouts/header.php';
                     </label>
 
                     <input
-                        type="text"
-                        name="curso"
-                        class="form-control">
+                        class="form-control"
+                        name="curso">
 
                 </div>
 
@@ -129,9 +120,8 @@ require_once __DIR__ . '/../layouts/header.php';
                     </label>
 
                     <input
-                        type="text"
-                        name="periodo"
-                        class="form-control">
+                        class="form-control"
+                        name="periodo">
 
                 </div>
 
@@ -144,8 +134,8 @@ require_once __DIR__ . '/../layouts/header.php';
                     </label>
 
                     <select
-                        name="status"
-                        class="form-select">
+                        class="form-select"
+                        name="status">
 
                         <option value="ativo">
 
@@ -165,11 +155,11 @@ require_once __DIR__ . '/../layouts/header.php';
 
             </div>
 
-            <div class="mt-4 d-flex gap-2">
+            <div class="mt-4">
 
                 <button
-                    type="submit"
-                    class="btn btn-success">
+                    class="btn btn-success"
+                    type="submit">
 
                     Salvar
 
@@ -192,17 +182,7 @@ require_once __DIR__ . '/../layouts/header.php';
 
 </div>
 
-<div class="card shadow-sm border-0">
-
-    <div class="card-header">
-
-        <strong>
-
-            Pessoas cadastradas
-
-        </strong>
-
-    </div>
+<div class="card border-0 shadow-sm">
 
     <div class="table-responsive">
 
@@ -224,7 +204,7 @@ require_once __DIR__ . '/../layouts/header.php';
 
                     <th>Status</th>
 
-                    <th width="180">
+                    <th class="text-end">
 
                         Ações
 
@@ -240,7 +220,7 @@ require_once __DIR__ . '/../layouts/header.php';
 
                     <td
                         colspan="7"
-                        class="text-center py-5">
+                        class="text-center py-4">
 
                         Carregando...
 
@@ -264,19 +244,19 @@ const formPessoa =
 const cardFormulario =
     document.getElementById('cardFormulario');
 
-function abrirFormulario() {
+function novaPessoa() {
 
     formPessoa.reset();
 
-    document.getElementById('id').value = '';
+    document.getElementById('pessoaId').value = '';
 
     cardFormulario.classList.remove('d-none');
 
     window.scrollTo({
 
-        top: 0,
+        top:0,
 
-        behavior: 'smooth'
+        behavior:'smooth'
 
     });
 
@@ -286,121 +266,76 @@ function fecharFormulario() {
 
     formPessoa.reset();
 
-    document.getElementById('id').value = '';
+    document.getElementById('pessoaId').value='';
 
     cardFormulario.classList.add('d-none');
 
 }
-document.addEventListener('DOMContentLoaded', () => {
-
-    carregarPessoas();
-
-});
+document.addEventListener('DOMContentLoaded', carregarPessoas);
 
 async function carregarPessoas() {
 
     try {
 
-        const resposta = await AtendeLabApi.get(
-            'pessoas',
-            'listar'
+        const dados = AtendeLabApi.toList(
+            await AtendeLabApi.get('pessoas', 'listar')
         );
 
-        const pessoas =
-            AtendeLabApi.toList(resposta);
+        const tbody = document.getElementById('tabelaPessoas');
 
-        const tbody =
-            document.getElementById('tabelaPessoas');
-
-        if (!pessoas.length) {
+        if (!dados.length) {
 
             tbody.innerHTML = `
-
                 <tr>
-
-                    <td
-                        colspan="7"
-                        class="text-center py-5">
-
+                    <td colspan="7" class="text-center py-4">
                         Nenhuma pessoa cadastrada.
-
                     </td>
-
                 </tr>
-
             `;
 
             return;
 
         }
 
-        tbody.innerHTML = pessoas.map(pessoa => `
+        tbody.innerHTML = dados.map(p => `
 
             <tr>
 
-                <td>
+                <td>${AtendeLabApi.escape(p.nome)}</td>
 
-                    ${AtendeLabApi.escape(pessoa.nome)}
+                <td>${AtendeLabApi.escape(p.documento)}</td>
 
-                </td>
+                <td>${AtendeLabApi.escape(p.telefone ?? '')}</td>
 
-                <td>
+                <td>${AtendeLabApi.escape(p.curso ?? '')}</td>
 
-                    ${AtendeLabApi.escape(pessoa.documento)}
-
-                </td>
+                <td>${AtendeLabApi.escape(p.periodo ?? '')}</td>
 
                 <td>
 
-                    ${AtendeLabApi.escape(
-                        pessoa.telefone ?? ''
-                    )}
-
-                </td>
-
-                <td>
-
-                    ${AtendeLabApi.escape(
-                        pessoa.curso ?? ''
-                    )}
-
-                </td>
-
-                <td>
-
-                    ${AtendeLabApi.escape(
-                        pessoa.periodo ?? ''
-                    )}
-
-                </td>
-
-                <td>
-
-                    <span class="badge ${pessoa.status === 'ativo'
+                    <span class="badge ${p.status === 'ativo'
                         ? 'text-bg-success'
                         : 'text-bg-secondary'}">
 
-                        ${AtendeLabApi.escape(
-                            pessoa.status
-                        )}
+                        ${AtendeLabApi.escape(p.status)}
 
                     </span>
 
                 </td>
 
-                <td>
+                <td class="text-end">
 
                     <button
-                        class="btn btn-outline-primary btn-sm"
-                        onclick="editarPessoa(${pessoa.id})">
+                        class="btn btn-sm btn-outline-primary me-1"
+                        onclick="editarPessoa(${Number(p.id)})">
 
                         Editar
 
                     </button>
 
                     <button
-                        class="btn btn-outline-danger btn-sm"
-                        onclick="inativarPessoa(${pessoa.id})">
+                        class="btn btn-sm btn-outline-danger"
+                        onclick="inativarPessoa(${Number(p.id)})">
 
                         Inativar
 
@@ -417,109 +352,87 @@ async function carregarPessoas() {
     catch (erro) {
 
         AtendeLabApi.showAlert(
-
             'alerta',
-
             erro.message,
-
             'danger'
-
         );
 
     }
 
 }
 
-formPessoa.addEventListener(
-    'submit',
-    async event => {
+formPessoa.addEventListener('submit', async event => {
 
-        event.preventDefault();
+    event.preventDefault();
 
-        const id =
-            document.getElementById('id').value;
+    const id = document.getElementById('pessoaId').value;
 
-        try {
+    try {
 
-            await AtendeLabApi.post(
+        await AtendeLabApi.post(
 
-                'pessoas',
+            'pessoas',
 
-                id
-                    ? 'atualizar'
-                    : 'criar',
+            id
+                ? 'atualizar'
+                : 'criar',
 
-                new FormData(formPessoa)
+            new FormData(formPessoa)
 
-            );
+        );
 
-            AtendeLabApi.showAlert(
+        AtendeLabApi.showAlert(
 
-                'alerta',
+            'alerta',
 
-                id
-                    ? 'Pessoa atualizada com sucesso.'
-                    : 'Pessoa cadastrada com sucesso.'
+            id
+                ? 'Pessoa atualizada com sucesso.'
+                : 'Pessoa cadastrada com sucesso.'
 
-            );
+        );
 
-            fecharFormulario();
+        fecharFormulario();
 
-            carregarPessoas();
-
-        }
-
-        catch (erro) {
-
-            AtendeLabApi.showAlert(
-
-                'alerta',
-
-                erro.message,
-
-                'danger'
-
-            );
-
-        }
+        carregarPessoas();
 
     }
-);
+
+    catch (erro) {
+
+        AtendeLabApi.showAlert(
+            'alerta',
+            erro.message,
+            'danger'
+        );
+
+    }
+
+});
+
 async function editarPessoa(id) {
 
     try {
 
-        const resposta = await AtendeLabApi.get(
-            'pessoas',
-            'buscar',
-            { id }
+        const pessoa = AtendeLabApi.toObject(
+
+            await AtendeLabApi.get(
+                'pessoas',
+                'buscar',
+                { id }
+            )
+
         );
 
-        const pessoa =
-            AtendeLabApi.toObject(resposta);
+        document.getElementById('pessoaId').value = pessoa.id;
 
-        abrirFormulario();
+        formPessoa.nome.value = pessoa.nome ?? '';
+        formPessoa.documento.value = pessoa.documento ?? '';
+        formPessoa.telefone.value = pessoa.telefone ?? '';
+        formPessoa.curso.value = pessoa.curso ?? '';
+        formPessoa.periodo.value = pessoa.periodo ?? '';
+        formPessoa.status.value = pessoa.status ?? 'ativo';
 
-        document.getElementById('id').value =
-            pessoa.id;
-
-        formPessoa.nome.value =
-            pessoa.nome ?? '';
-
-        formPessoa.documento.value =
-            pessoa.documento ?? '';
-
-        formPessoa.telefone.value =
-            pessoa.telefone ?? '';
-
-        formPessoa.curso.value =
-            pessoa.curso ?? '';
-
-        formPessoa.periodo.value =
-            pessoa.periodo ?? '';
-
-        formPessoa.status.value =
-            pessoa.status ?? 'ativo';
+        cardFormulario.classList.remove('d-none');
 
         window.scrollTo({
 
@@ -534,13 +447,9 @@ async function editarPessoa(id) {
     catch (erro) {
 
         AtendeLabApi.showAlert(
-
             'alerta',
-
             erro.message,
-
             'danger'
-
         );
 
     }
@@ -549,9 +458,7 @@ async function editarPessoa(id) {
 
 async function inativarPessoa(id) {
 
-    if (!confirm(
-        'Deseja realmente inativar esta pessoa?'
-    )) {
+    if (!confirm('Deseja realmente inativar esta pessoa?')) {
 
         return;
 
