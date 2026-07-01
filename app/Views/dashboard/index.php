@@ -1,72 +1,168 @@
-<!doctype html>
-<html lang="pt-br">
+<?php
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1">
+$tituloPagina = 'Dashboard';
 
-    <title>Dashboard - AtendeLab</title>
+require __DIR__ . '/../layouts/header.php';
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet">
-</head>
+?>
 
-<body class="bg-light">
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container">
+    <div>
 
-            <span class="navbar-brand">AtendeLab</span>
+        <h1 class="h3 mb-1">
+            Dashboard
+        </h1>
 
-            <a
-                class="btn btn-outline-light btn-sm"
-                href="?controller=auth&action=logout">
-                Sair
-            </a>
+        <p class="text-secondary mb-0">
+            Resumo simples para validar a integração com o backend.
+        </p>
 
-        </div>
-    </nav>
+    </div>
 
-    <div class="container mt-4">
+</div>
 
-        <div class="card shadow-sm">
+<div class="row g-3 mb-4">
+
+    <div class="col-md-4">
+
+        <div class="card shadow-sm border-0">
+
             <div class="card-body">
 
-                <h1 class="h4">Área restrita</h1>
+                <small class="text-secondary">
+                    Pessoas cadastradas
+                </small>
 
-                <p class="mb-1">
-                    Bem-vindo,
-                    <strong>
-                        <?= htmlspecialchars(
-                            $usuario['nome'],
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>
-                    </strong>.
-                </p>
-
-                <p class="text-muted">
-                    Perfil:
-                    <?= htmlspecialchars(
-                        $usuario['perfil'],
-                        ENT_QUOTES,
-                        'UTF-8'
-                    ) ?>
-                </p>
-
-                <a
-                    class="btn btn-primary"
-                    href="?controller=usuarios&action=listar">
-                    Testar rota protegida de usuarios
-                </a>
+                <h2
+                    id="totalPessoas"
+                    class="display-6 mb-0">
+                    --
+                </h2>
 
             </div>
+
         </div>
 
     </div>
 
-</body>
+    <div class="col-md-4">
 
-</html>
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+                    Tipos de atendimento
+                </small>
+
+                <h2
+                    id="totalTipos"
+                    class="display-6 mb-0">
+                    --
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body">
+
+                <small class="text-secondary">
+                    Atendimentos registrados
+                </small>
+
+                <h2
+                    id="totalAtendimentos"
+                    class="display-6 mb-0">
+                    --
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow-sm border-0">
+
+    <div class="card-body">
+
+        <h2 class="h5">
+            Acesso rápido
+        </h2>
+
+        <p class="text-secondary">
+            Use os módulos abaixo para cadastrar e consultar dados reais do banco.
+        </p>
+
+        <a
+            href="?controller=frontend&action=pessoas"
+            class="btn btn-success btn-sm">
+
+            Gerenciar pessoas
+
+        </a>
+
+        <a
+            href="?controller=frontend&action=tipos"
+            class="btn btn-success btn-sm">
+
+            Gerenciar tipos
+
+        </a>
+
+        <a
+            href="?controller=frontend&action=atendimentos"
+            class="btn btn-success btn-sm">
+
+            Registrar atendimentos
+
+        </a>
+
+    </div>
+
+</div>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+    const targets = {
+
+        pessoas: document.getElementById('totalPessoas'),
+        tipos: document.getElementById('totalTipos'),
+        atendimentos: document.getElementById('totalAtendimentos')
+
+    };
+
+    for (const [controller, element] of Object.entries(targets)) {
+
+        try {
+
+            const response = await AtendeLabApi.get(controller, 'listar');
+
+            element.textContent = AtendeLabApi.toList(response).length;
+
+        } catch (error) {
+
+            element.textContent = '--';
+            element.title = error.message;
+
+        }
+
+    }
+
+});
+
+</script>
+
+<?php require __DIR__ . '/../layouts/footer.php'; ?>

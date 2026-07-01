@@ -81,8 +81,7 @@ class AtendimentosController
 
         $pessoa_id = filter_input(INPUT_POST, 'pessoa_id', FILTER_VALIDATE_INT);
         $tipo_atendimento_id = filter_input(INPUT_POST, 'tipo_atendimento_id', FILTER_VALIDATE_INT);
-        $usuario_id = filter_input(INPUT_POST, 'usuario_id', FILTER_VALIDATE_INT);
-
+        $usuario_id = $this->usuarioResponsavel();
         $data_atendimento = trim($_POST['data_atendimento'] ?? '');
         $hora_atendimento = trim($_POST['hora_atendimento'] ?? '');
         $descricao = trim($_POST['descricao'] ?? '');
@@ -309,4 +308,13 @@ class AtendimentosController
             'mensagem' => 'Atendimento cancelado com sucesso.'
         ]);
     }
+        private function usuarioResponsavel(): int
+        {
+            if (isset($_SESSION['usuario']['id'])) {
+                return (int) $_SESSION['usuario']['id'];
+            }
+
+            return (int) ($_POST['usuario_id'] ?? 0);
+        }
+
 }
