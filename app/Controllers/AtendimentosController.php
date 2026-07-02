@@ -120,16 +120,13 @@ class AtendimentosController
             return;
         }
  
-        // ATENÇÃO: esses valores precisam bater exatamente com o ENUM da coluna
-        // `status` na tabela `atendimentos`. Confira com:
-        // SHOW COLUMNS FROM atendimentos LIKE 'status';
-        if (!in_array($status, ['aberto', 'em_andamento', 'finalizado', 'cancelado'], true)) {
+        if (!in_array($status, ['aberto', 'em_andamento', 'concluido'], true)) {
             http_response_code(400);
             echo json_encode(['erro' => 'Status inválido.']);
             return;
         }
  
-        if ($status === 'finalizado' && $observacaoFinal === '') {
+        if ($status === 'concluido' && $observacaoFinal === '') {
             http_response_code(400);
             echo json_encode(['erro' => 'Observação final é obrigatória ao finalizar.']);
             return;
