@@ -70,12 +70,13 @@ require __DIR__ . '/../layouts/header.php';
                         <select class="form-select" name="status" required>
                             <option value="aberto">Aberto</option>
                             <option value="em_andamento">Em andamento</option>
-                            <option value="concluido">Concluído</option>
+                            <option value="finalizado">Finalizado</option>
+                            <option value="cancelado">Cancelado</option>
                         </select>
                     </div>
                     <div>
                         <label class="form-label">Observação final</label>
-                        <textarea class="form-control" name="observacao_final" rows="3" placeholder="Obrigatória ao concluir"></textarea>
+                        <textarea class="form-control" name="observacao_final" rows="3" placeholder="Obrigatória ao finalizar"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -110,7 +111,10 @@ async function carregarAtendimentos() {
             const tipo = labelRegistro(a, 'tipo', 'tipo_nome', 'tipo_atendimento', 'nome_tipo');
             const responsavel = labelRegistro(a, 'responsavel', 'usuario', 'usuario_nome', 'nome_usuario');
             const data = labelRegistro(a, 'data_atendimento', 'data');
-            const classeStatus = a.status === 'concluido' ? 'text-bg-success' : a.status === 'em_andamento' ? 'text-bg-warning' : 'text-bg-primary';
+            const classeStatus = a.status === 'finalizado' ? 'text-bg-success'
+                : a.status === 'em_andamento' ? 'text-bg-warning'
+                : a.status === 'cancelado' ? 'text-bg-secondary'
+                : 'text-bg-primary';
             return `<tr>
                 <td>${AtendeLabApi.escape(a.id)}</td>
                 <td>${AtendeLabApi.escape(pessoa)}</td>
