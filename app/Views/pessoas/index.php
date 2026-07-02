@@ -39,9 +39,7 @@ require_once __DIR__ . '/../layouts/header.php';
     <div class="card-body">
 
         <h4 class="mb-4">
-
             Cadastro de Pessoa
-
         </h4>
 
         <form id="formPessoa">
@@ -56,9 +54,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-6">
 
                     <label class="form-label">
-
                         Nome
-
                     </label>
 
                     <input
@@ -71,9 +67,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-3">
 
                     <label class="form-label">
-
                         Documento
-
                     </label>
 
                     <input
@@ -86,9 +80,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-3">
 
                     <label class="form-label">
-
                         Telefone
-
                     </label>
 
                     <input
@@ -100,9 +92,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-6">
 
                     <label class="form-label">
-
                         Curso
-
                     </label>
 
                     <input
@@ -114,9 +104,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-3">
 
                     <label class="form-label">
-
                         Período
-
                     </label>
 
                     <input
@@ -128,9 +116,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-3">
 
                     <label class="form-label">
-
                         Status
-
                     </label>
 
                     <select
@@ -138,21 +124,14 @@ require_once __DIR__ . '/../layouts/header.php';
                         name="status">
 
                         <option value="ativo">
-
                             Ativo
-
                         </option>
 
                         <option value="inativo">
-
                             Inativo
-
                         </option>
-
                     </select>
-
                 </div>
-
             </div>
 
             <div class="mt-4">

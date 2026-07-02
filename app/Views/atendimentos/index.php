@@ -39,9 +39,7 @@ require_once __DIR__ . '/../layouts/header.php';
     <div class="card-body">
 
         <h4 class="mb-4">
-
             Cadastro de Atendimento
-
         </h4>
 
         <form id="formAtendimento">
@@ -68,9 +66,7 @@ require_once __DIR__ . '/../layouts/header.php';
                         required>
 
                         <option value="">
-
                             Carregando...
-
                         </option>
 
                     </select>
@@ -80,9 +76,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-6">
 
                     <label class="form-label">
-
                         Tipo de atendimento
-
                     </label>
 
                     <select
@@ -92,9 +86,7 @@ require_once __DIR__ . '/../layouts/header.php';
                         required>
 
                         <option value="">
-
                             Carregando...
-
                         </option>
 
                     </select>
@@ -104,9 +96,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-12">
 
                     <label class="form-label">
-
                         Descrição
-
                     </label>
 
                     <textarea
@@ -120,9 +110,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-12">
 
                     <label class="form-label">
-
                         Observação
-
                     </label>
 
                     <textarea
@@ -135,9 +123,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-4">
 
                     <label class="form-label">
-
                         Data
-
                     </label>
 
                     <input
@@ -151,9 +137,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-4">
 
                     <label class="form-label">
-
                         Hora
-
                     </label>
 
                     <input
@@ -167,9 +151,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-4">
 
                     <label class="form-label">
-
                         Status
-
                     </label>
 
                     <select
@@ -177,27 +159,19 @@ require_once __DIR__ . '/../layouts/header.php';
                         name="status">
 
                         <option value="aberto">
-
                             Aberto
-
                         </option>
 
                         <option value="em_andamento">
-
                             Em andamento
-
                         </option>
 
                         <option value="concluido">
-
                             Concluído
-
                         </option>
 
                         <option value="cancelado">
-
                             Cancelado
-
                         </option>
 
                     </select>
@@ -244,19 +218,12 @@ require_once __DIR__ . '/../layouts/header.php';
                 <tr>
 
                     <th>Pessoa</th>
-
                     <th>Tipo</th>
-
                     <th>Data</th>
-
                     <th>Hora</th>
-
                     <th>Status</th>
-
                     <th class="text-end">
-
                         Ações
-
                     </th>
 
                 </tr>

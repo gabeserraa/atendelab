@@ -39,9 +39,7 @@ require_once __DIR__ . '/../layouts/header.php';
     <div class="card-body">
 
         <h4 class="mb-4">
-
             Cadastro de Tipo
-
         </h4>
 
         <form id="formTipo">
@@ -56,9 +54,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-6">
 
                     <label class="form-label">
-
                         Nome
-
                     </label>
 
                     <input
@@ -71,9 +67,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-md-6">
 
                     <label class="form-label">
-
                         Status
-
                     </label>
 
                     <select
@@ -81,15 +75,11 @@ require_once __DIR__ . '/../layouts/header.php';
                         name="status">
 
                         <option value="ativo">
-
                             Ativo
-
                         </option>
 
                         <option value="inativo">
-
                             Inativo
-
                         </option>
 
                     </select>
@@ -99,9 +89,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <div class="col-12">
 
                     <label class="form-label">
-
                         Descrição
-
                     </label>
 
                     <textarea
@@ -151,9 +139,7 @@ require_once __DIR__ . '/../layouts/header.php';
                 <tr>
 
                     <th>Nome</th>
-
                     <th>Descrição</th>
-
                     <th>Status</th>
 
                     <th class="text-end">
